@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { AppRoutes } from "./routes/routes";
+import { BrowserRouter } from "react-router-dom";
+import { Provider, useDispatch } from "react-redux";
+import { store } from "./store";
+import { getUserGitHub } from "./store/auth/authThunk";
 
-function App() {
+const AppContent = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserGitHub());
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AppRoutes />
+    </>
   );
-}
+};
 
-export default App;
+export const App = () => {
+  return (
+    <BrowserRouter>
+      <Provider store={store}>
+        <AppContent />
+      </Provider>
+    </BrowserRouter>
+  );
+};
