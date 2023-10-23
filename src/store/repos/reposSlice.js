@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getReposGitHub } from "./reposThunk";
+import { getReposGitHub, searchUsers } from "./reposThunk";
 
 const initialState = {
   repos: [],
+  users: {},
 };
 
 export const reposSlice = createSlice({
@@ -13,5 +14,8 @@ export const reposSlice = createSlice({
     builder.addCase(getReposGitHub.fulfilled, (state, action) => {
       state.repos = action.payload;
     });
+    builder.addCase(searchUsers.fulfilled, (state, action) => {
+        state.users = action.payload;
+      });
   },
 });

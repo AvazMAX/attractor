@@ -2,7 +2,7 @@ import { TextField } from "@mui/material";
 import React, { forwardRef } from "react";
 
 export const Input = forwardRef(
-  ({ value, error, onChange, label, type, id }, ref) => {
+  ({ value, error, onChange, label, type, id, ...rest }, ref) => {
     return (
       <TextField
         inputRef={ref}
@@ -13,7 +13,7 @@ export const Input = forwardRef(
         value={value}
         type={type}
         error={error}
-        sx={{ borderTopLeftRadius: "1rem" }}
+        {...rest}
       />
     );
   }

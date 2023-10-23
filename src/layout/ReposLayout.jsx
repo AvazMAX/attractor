@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Header } from "../pages/main/Header";
 import { Outlet, useNavigate } from "react-router";
-import { Footer } from "../pages/main/Footer";
 import { Tab, Tabs, styled } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getReposGitHub } from "../store/repos/reposThunk";
@@ -23,15 +21,14 @@ export const UserLayout = () => {
 
   return (
     <>
-      <Header />
-      <Tabs
+      <TabsStyle
         value={value}
         onChange={handleChange}
         aria-label="secondary tabs example"
       >
-        <Tab value="publicrepos" label="Public Repository" />
-        <Tab value="privatrepos" label="Private Repository" />
-      </Tabs>
+        <Tab value="publicrepos" label="Public repository" />
+        <Tab value="privatrepos" label="Private repository" />
+      </TabsStyle>
       <Container>
         <BlockOne>
           <img src={item.avatar_url} alt="profile" />
@@ -49,7 +46,6 @@ export const UserLayout = () => {
           <Outlet />
         </div>
       </Container>
-      <Footer />
     </>
   );
 };
@@ -63,5 +59,11 @@ const Container = styled("div")`
 const BlockOne = styled("div")`
   img {
     border-radius: 99rem;
+  }
+`;
+const TabsStyle = styled(Tabs)`
+  button {
+    text-transform: none;
+    color: #000;
   }
 `;
