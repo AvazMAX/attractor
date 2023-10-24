@@ -20,12 +20,12 @@ export const getReposGitHub = createAsyncThunk(
 
 export const searchUsers = createAsyncThunk(
   "user/searchUsers",
-  async (value, { rejectWithValue }) => {
+  async ({ value, page }, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${URL}/search/users`, {
         params: {
           q: value,
-          page: 1,
+          page: page,
           per_page: 10,
           sort: "",
           order: "",
