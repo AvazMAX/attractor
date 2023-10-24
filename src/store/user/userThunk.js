@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { URL, accessToken } from "../../utils/constants";
+import { URL } from "../../utils/constants";
 import { axiosInstance } from "../../config/axiosInstance";
 
 export const getUserGitHub = createAsyncThunk(
