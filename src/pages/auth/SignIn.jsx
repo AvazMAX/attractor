@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as yup from "yup";
 import { styled } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -6,12 +6,20 @@ import { Page } from "./Page";
 import { Input } from "../../components/UI/Input";
 import { Button } from "../../components/UI/Button";
 import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { authUser } from "../../store/auth/authThunk";
+import { client_id } from "../../utils/constants";
 
 export const SignIn = () => {
+  const dispatch = useDispatch();
   const validationSchema = yup.object({
     email: yup.string().matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/),
     password: yup.string().min(6),
   });
+
+  useEffect(() => {
+    dispatch(authUser());
+  }, [dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -29,6 +37,9 @@ export const SignIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     submitForm();
+  };
+  const handleClick = () => {
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${client_id}&scope="s"`;
   };
 
   const isFormEmpty =
@@ -63,6 +74,7 @@ export const SignIn = () => {
           </ContainerStyled>
         </form>
         <ContainerPathToSignUp>
+          <Button onClick={handleClick}>asdf</Button>
           <p>
             Нет аккаунта, <Link to="/signup">зарегистрируйтесь</Link>
           </p>

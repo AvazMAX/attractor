@@ -3,7 +3,7 @@ import { styled } from "@mui/material";
 import { useSelector } from "react-redux";
 
 export const Private = () => {
-  const { repos } = useSelector((state) => state.repos);
+  const { repos } = useSelector((state) => state.user);
   const publicRepos = repos.filter((el) => el.private);
 
   return (

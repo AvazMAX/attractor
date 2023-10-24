@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserGitHub } from "./authThunk";
+import { authUser } from "./authThunk";
 
 const initialState = {
-  user: [],
+  auth: [],
 };
 
 export const authSlice = createSlice({
-  name: "user",
+  name: "auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getUserGitHub.fulfilled, (state, action) => {
-      state.user = action.payload;
+    builder.addCase(authUser.fulfilled, (state, action) => {
+      state.auth = action.payload;
     });
   },
 });

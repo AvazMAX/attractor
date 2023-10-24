@@ -1,33 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pagination, Stack, styled } from "@mui/material";
+import { useDebounce } from "@uidotdev/usehooks";
 import { useDispatch, useSelector } from "react-redux";
 import { Input } from "../../components/UI/Input";
-import { Button } from "../../components/UI/Button";
-import { searchUsers } from "../../store/repos/reposThunk";
 import { Link } from "react-router-dom";
-import debounce from "lodash.debounce";
+import { searchUsers } from "../../store/user/userThunk";
 
 export const Users = () => {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.repos);
+  const { users } = useSelector((state) => state.user);
   const [value, setValue] = useState("");
   const [page, setPage] = useState(1);
+  const debounce = useDebounce(value, 400);
+
+  useEffect(() => {
+    dispatch(searchUsers({ value: debounce, page }));
+  }, [debounce, page, dispatch]);
 
   const changeHandler = (e) => {
     setValue(e.target.value);
   };
 
-  const searchWithDebounce = debounce((searchValue) => {
-    dispatch(searchUsers({ value: searchValue }));
-  }, 300); // Adjust the debounce delay as needed
-
   const changePageHandler = (e, newPage) => {
     setPage(newPage);
-    dispatch(searchUsers({ page: newPage }));
-  };
-
-  const searchHandler = () => {
-    dispatch(searchUsers({ value }));
+    dispatch(searchUsers({ value, page: newPage }));
   };
 
   return (
@@ -36,18 +32,27 @@ export const Users = () => {
         <InputStyled
           value={value}
           onChange={changeHandler}
-          onKeyUp={() => searchWithDebounce(value)}
+          placeholder="Search users"
         />
-        <Button onClick={searchHandler}>Search</Button>
       </SearchBlock>
       {users?.items && users?.items?.length > 0 ? (
         <CompletedBlock>
           {users?.items?.map((el) => (
             <ContainerItem key={el.id}>
               <img src={el.avatar_url} alt="avatar" />
-              <Link to="">{el.login}</Link>
+              <Link to={`${el.login}`}>{el.login}</Link>
             </ContainerItem>
           ))}
+          <PagintaionStyled>
+            <Stack spacing={10}>
+              <Pagination
+                count={Math.ceil(users?.total_count / 10)}
+                color="primary"
+                page={page}
+                onChange={(e, newPage) => changePageHandler(e, newPage)}
+              />
+            </Stack>
+          </PagintaionStyled>
         </CompletedBlock>
       ) : (
         <NotFoundStyled>
@@ -57,16 +62,6 @@ export const Users = () => {
           />
         </NotFoundStyled>
       )}
-      <PagintaionStyled>
-        <Stack spacing={10}>
-          <Pagination
-            count={Math.ceil(users?.total_count / 10)}
-            color="primary"
-            page={page}
-            onChange={(e, newPage) => changePageHandler(e, newPage)}
-          />
-        </Stack>
-      </PagintaionStyled>
     </Container>
   );
 };
@@ -116,4 +111,7 @@ const NotFoundStyled = styled("div")`
   display: flex;
   justify-content: center;
   margin: 2rem 0;
+  img {
+    height: 30vh;
+  }
 `;

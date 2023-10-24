@@ -3,7 +3,7 @@ import { AppRoutes } from "./routes/routes";
 import { BrowserRouter } from "react-router-dom";
 import { Provider, useDispatch } from "react-redux";
 import { store } from "./store";
-import { getUserGitHub } from "./store/auth/authThunk";
+import { getUserGitHub } from "./store/user/userThunk";
 
 const AppContent = () => {
   const dispatch = useDispatch();

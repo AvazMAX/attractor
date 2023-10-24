@@ -6,16 +6,15 @@ import { useNavigate } from "react-router";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const meatBall = [
-    { id: 1, title: "Users" },
-    { id: 2, title: "Repositories" },
-    { id: 3, title: "Log out" },
-  ];
   const [anchorEl, setAnchorEl] = useState(null);
   const userData = useSelector((state) => state.user.user);
   const [openModal, setOpenModal] = useState(false);
-
   const open = Boolean(anchorEl);
+  const meatBall = [
+    { id: 1, title: "Users" },
+    { id: 2, title: "Profile" },
+    { id: 3, title: "Log out" },
+  ];
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -27,7 +26,7 @@ export const Header = () => {
     id === 1
       ? navigate("/layout/users")
       : id === 2
-      ? navigate("/layout/userlayout")
+      ? navigate("/layout/profile")
       : setOpenModal((prev) => !prev);
     handleClose();
   };

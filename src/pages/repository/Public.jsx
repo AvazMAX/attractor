@@ -2,15 +2,14 @@ import React from "react";
 import { styled } from "@mui/material";
 import { useSelector } from "react-redux";
 
-export const Public = () => {
-  const { repos } = useSelector((state) => state.repos);
+export const Public = ({ variant }) => {
+  const { repos, oneUserRepos } = useSelector((state) => state.user);
   const publicRepos = repos.filter((el) => !el.private);
+  const data = !variant ? publicRepos : oneUserRepos;
 
   return (
-    <Container
-      style={publicRepos.length >= 7 ? { overflowY: "scroll" } : null}
-    >
-      {publicRepos.map((el) => (
+    <Container style={data.length >= 7 ? { overflowY: "scroll" } : null}>
+      {data.map((el) => (
         <ContainerItem key={el.id}>
           <a href={el.html_url}>
             <h3>{el.name}</h3>
@@ -24,7 +23,7 @@ export const Public = () => {
 };
 
 const Container = styled("div")`
-  width: 30rem;
+  width: 25rem;
   height: 80vh;
 `;
 
