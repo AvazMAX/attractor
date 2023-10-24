@@ -30,6 +30,7 @@ export const Users = () => {
     <Container>
       <SearchBlock>
         <InputStyled
+          type="name"
           value={value}
           onChange={changeHandler}
           placeholder="Search users"

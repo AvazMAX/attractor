@@ -10,6 +10,7 @@ import {
 } from "../store/user/userThunk";
 import { Button } from "../components/UI/Button";
 import { Input } from "../components/UI/Input";
+import { BioIcon, CompanyIcon, GeoPoint } from "../assets";
 
 export const UserLayout = ({ variant }) => {
   const navigate = useNavigate();
@@ -77,45 +78,50 @@ export const UserLayout = ({ variant }) => {
       <ContainerBlockOne>
         <BlockOne onSubmit={saveHandler}>
           <img src={item.avatar_url} alt="profile" />
-          <h2>{item.login}</h2>
           {edit ? (
-            <Input value={name} onChange={(e) => setName(e.target.value)} />
+            <ContainerEditInput>
+              <Input value={name} onChange={(e) => setName(e.target.value)} />
+              <Input
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+              />
+              <Input
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+              <Input value={bio} onChange={(e) => setBio(e.target.value)} />
+            </ContainerEditInput>
           ) : (
-            <h1>{item.name}</h1>
+            <ContainerEditItem>
+              <h1>{item.name}</h1>
+              <div>
+                <p>
+                  <GeoPoint />
+                  {item.location}
+                </p>
+                <p>
+                  <CompanyIcon />
+                  {item.company}
+                </p>
+                <p>
+                  <BioIcon />
+                  {item.bio}
+                </p>
+              </div>
+            </ContainerEditItem>
           )}
-          {edit ? (
-            <Input
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          ) : (
-            <p>{item.location}</p>
-          )}
-          <p>{item.email}</p>
-          {edit ? (
-            <Input
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-            />
-          ) : (
-            <p>{item.company}</p>
-          )}
-          {edit ? (
-            <Input value={bio} onChange={(e) => setBio(e.target.value)} />
-          ) : (
-            <p>{item.bio}</p>
-          )}
-          <a target="blank" href={item.html_url}>
-            {item.html_url}
-          </a>
           {!variant && (
             <BlockTwo>
               <Button variant="outlined" onClick={editHandler}>
-                {edit ? "Cancel" : "Edit"}
+                {edit ? "Cancel" : "Edit profile"}
               </Button>
               {edit && <Button type="submit">Save</Button>}
             </BlockTwo>
           )}
+          <h2>{item.login}</h2>
+          <a target="blank" href={item.html_url}>
+            {item.html_url}
+          </a>
         </BlockOne>
         <div>
           <Outlet />
@@ -141,19 +147,39 @@ const ContainerContributions = styled("div")`
     width: 100%;
   }
 `;
+const ContainerEditInput = styled("div")`
+  display: flex;
+  flex-direction: column;
+`;
+const ContainerEditItem = styled("div")`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  svg {
+    width: 1.3rem;
+    path {
+      fill: #555555;
+    }
+  }
+`;
 const ContainerBlockOne = styled("div")`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 2rem;
+  @media (max-width: 830px) {
+    display: block;
+  }
   margin: 1rem auto;
 `;
 const BlockOne = styled("form")`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 1rem;
   img {
-    height: 20rem;
+    width: 20rem;
+    /* height: 20rem; */
     border-radius: 99rem;
   }
 `;

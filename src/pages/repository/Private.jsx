@@ -22,15 +22,17 @@ export const Private = () => {
     </Container>
   );
 };
-
 const Container = styled("div")`
+  height: 40rem;
   width: 30rem;
-  height: 80vh;
+  @media (max-width: 830px) {
+    width: 100%;
+  }
 `;
 
 const ContainerItem = styled("div")`
   border-bottom: 1px solid #d4d4d4;
-  padding: 1rem 0.5rem;
+  padding: 1rem;
   display: flex;
   align-items: end;
   justify-content: space-between;

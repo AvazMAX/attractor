@@ -11,7 +11,10 @@ export const Footer = () => {
 const Container = styled("footer")`
   background-color: #000000;
   color: #fff;
-  text-align: center;
-  padding: 5rem 0;
-  margin-top: 2rem;
+  height: 10rem;
+  margin: 2rem auto 0;
+  max-width: 60rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
