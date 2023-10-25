@@ -8,9 +8,16 @@ export const authUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${cod}`
+        "https://github.com/login/oauth/access_token",
+        {
+          params: {
+            client_id,
+            client_secret,
+            code: cod,
+          },
+        }
       );
-      console.log("response: ", response);
+      console.log("GitHub OAuth response: ", response);
       return response.data;
     } catch (error) {
       console.error("Error in authUser action:", error);
