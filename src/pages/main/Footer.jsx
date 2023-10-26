@@ -13,7 +13,7 @@ const Container = styled("footer")`
   color: #fff;
   height: 10rem;
   margin: 2rem auto 0;
-  max-width: 60rem;
+  /* max-width: 60rem; */
   display: flex;
   justify-content: center;
   align-items: center;

@@ -16,7 +16,6 @@ const AppContent = () => {
   useEffect(() => {
     if (access_token) {
       dispatch(authActions.addToken(access_token));
-      localStorage.setItem("token", access_token);
     }
   }, [dispatch, access_token]);
 

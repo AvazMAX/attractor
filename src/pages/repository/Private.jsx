@@ -8,7 +8,7 @@ export const Private = () => {
 
   return (
     <Container
-      style={publicRepos.length === 8 ? { overflowY: "scroll" } : null}
+      style={publicRepos.length >= 7 ? { overflowY: "scroll" } : null}
     >
       {publicRepos.map((el) => (
         <ContainerItem key={el.id}>

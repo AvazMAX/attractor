@@ -7,28 +7,22 @@ import { Private } from "../pages/repository/Private";
 import { Layout } from "../layout/Layout";
 import { Users } from "../pages/users/Users";
 
-export const AppRoutes = ({ token }) => {
-  return (
-    <Routes>
-      <Route path="/" element={<SignIn />} />
-      <Route path={`/${token}`} element={<Layout />}>
-        <Route path="users" element={<Users />} />
-        <Route path="users/:login" element={<UserLayout variant />}>
-          <Route
-            path={`/${token}/users/:login`}
-            element={<Navigate to="publicrepos" />}
-          />
-          <Route path="publicrepos" element={<Public variant />} />
-        </Route>
-        <Route path="profile" element={<UserLayout variant={false} />}>
-          <Route
-            path={`/${token}/profile`}
-            element={<Navigate to="publicrepos" />}
-          />
-          <Route path="publicrepos" element={<Public variant={false} />} />
-          <Route path="privatrepos" element={<Private />} />
-        </Route>
+export const AppRoutes = ({ token }) => (
+  <Routes>
+    <Route path="/" element={<SignIn />} />
+    <Route path={`/${token}`} element={<Navigate to="/layout" />} />
+    <Route path="/layout" element={<Layout />}>
+      <Route path="users" element={<Users />} />
+      <Route path="users/:login" element={<UserLayout variant />}>
+        <Route index element={<Navigate to="publicrepos" />} />
+        <Route path="publicrepos" element={<Public variant />} />
       </Route>
-    </Routes>
-  );
-};
+      <Route index element={<Navigate to="profile" />} />
+      <Route path="profile" element={<UserLayout variant={false} />}>
+        <Route index element={<Navigate to="publicrepos" />} />
+        <Route path="publicrepos" element={<Public variant={false} />} />
+        <Route path="privatrepos" element={<Private />} />
+      </Route>
+    </Route>
+  </Routes>
+);
