@@ -1,111 +1,19 @@
 import React from "react";
-import * as yup from "yup";
-import { styled } from "@mui/material";
-import { Link } from "react-router-dom";
 import { Page } from "./Page";
-import { Input } from "../../components/UI/Input";
 import { Button } from "../../components/UI/Button";
-import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
-import { authUser } from "../../store/auth/authThunk";
 import { client_id } from "../../utils/constants";
 
 export const SignIn = () => {
-  const dispatch = useDispatch();
-  const validationSchema = yup.object({
-    email: yup.string().matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/),
-    password: yup.string().min(6),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
-
-  const { values, errors, touched, handleChange, submitForm } = formik;
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    submitForm();
-    dispatch(authUser());
-  };
   const handleClick = () => {
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${client_id}&scope="s"`;
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${client_id}`;
   };
-
-  const isFormEmpty =
-    values.email.trim().length > 0 && values.password.trim().length > 0;
 
   return (
     <>
       <Page>
-        <form onSubmit={handleSubmit}>
-          <ContainerStyled>
-            <Input
-              type="email"
-              label="Введите email"
-              name="email"
-              id="email"
-              value={values.email}
-              onChange={handleChange}
-              error={touched.email && errors.email}
-            />
-            <Input
-              type="password"
-              label="Введите пароль"
-              name="password"
-              id="password"
-              value={values.password}
-              onChange={handleChange}
-              error={touched.password && errors.password}
-            />
-            <Button disabled={isFormEmpty} type="submit">
-              Войти
-            </Button>
-          </ContainerStyled>
-        </form>
-        <ContainerPathToSignUp>
-          <Button onClick={handleClick}>asdf</Button>
-          <p>
-            Нет аккаунта, <Link to="/signup">зарегистрируйтесь</Link>
-          </p>
-          <p>Well, hello there!</p>
-          <p>
-            We're going to now talk to the GitHub API. Ready?
-            <a href={`https://github.com/login/oauth/authorize?scope=user:email&client_id=<%=${client_id} client_id=${client_id} %>`}>
-              Click here
-            </a>{" "}
-            to begin!
-          </p>
-          <p>
-            If that link doesn't work, remember to provide your own{" "}
-            <a href="/apps/building-oauth-apps/authorizing-oauth-apps/">
-              Client ID
-            </a>
-            !
-          </p>
-        </ContainerPathToSignUp>
+        <Button onClick={handleClick}>Login with GitHub</Button>
       </Page>
     </>
   );
 };
-const ContainerStyled = styled("div")`
-  display: flex;
-  gap: 1rem;
-  margin-top: 30%;
-  Input {
-    width: 30rem;
-  }
-`;
-const ContainerPathToSignUp = styled("div")`
-  margin-top: 30%;
-  a {
-    color: #0066ff;
-  }
-`;
+

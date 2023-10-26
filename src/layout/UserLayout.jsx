@@ -51,7 +51,8 @@ export const UserLayout = ({ variant }) => {
     setEdit(!edit);
   };
 
-  const saveHandler = () => {
+  const saveHandler = (e) => {
+    e.preventDefault()
     dispatch(
       putProfile({
         name,

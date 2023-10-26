@@ -73,14 +73,9 @@ export const getReposOneUser = createAsyncThunk(
 );
 export const putProfile = createAsyncThunk(
   "user/putProfile",
-  async (payload, { rejectWithValue, dispatch }) => {
+  async (data, { rejectWithValue, dispatch }) => {
     try {
-      await axiosInstance.patch(`${URL}/user`, {
-        name: payload.name,
-        bio: payload.bio,
-        company: payload.company,
-        location: payload.location,
-      });
+      await axiosInstance.patch(`${URL}/user`, data);
       return dispatch(getUserGitHub());
     } catch (error) {
       return rejectWithValue(error.message);

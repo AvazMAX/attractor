@@ -8,6 +8,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const userData = useSelector((state) => state.user.user);
+  const { token } = useSelector((state) => state.auth);
   const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
   const meatBall = [
@@ -24,9 +25,9 @@ export const Header = () => {
   };
   const clickHandler = (id) => {
     id === 1
-      ? navigate("/layout/users")
+      ? navigate(`/token=${token}/users`)
       : id === 2
-      ? navigate("/layout/profile")
+      ? navigate(`/token=${token}/profile`)
       : setOpenModal((prev) => !prev);
     handleClose();
   };
