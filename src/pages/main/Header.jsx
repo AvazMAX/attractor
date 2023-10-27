@@ -33,6 +33,12 @@ export const Header = () => {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+  const logoutHandler = () => {
+    navigate("/");
+    localStorage.removeItem("token");
+    window.location.reload();
+    return { type: "auth/logout" };
+  };
   return (
     <Container>
       <BlockFirst>
@@ -70,7 +76,7 @@ export const Header = () => {
         <Content>
           <h1>Log out?</h1>
           <div>
-            <MyButton>Yes</MyButton>
+            <MyButton onClick={logoutHandler}>Yes</MyButton>
             <MyButton onClick={handleCloseModal}>No</MyButton>
           </div>
         </Content>

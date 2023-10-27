@@ -1,7 +1,7 @@
 import axios from "axios";
 import { URL } from "../utils/constants";
+import { authActions } from "../store/auth/authSlice";
 
-const logoutAction = () => {};
 const headers = {
   "Content-Type": "application/json",
 };
@@ -19,9 +19,9 @@ export const injectStore = (_store) => {
 axiosInstance.interceptors.request.use((config) => {
   const updatedConfig = { ...config };
 
-  const { token } = store.getState().auth;
-  if (token) {
-    updatedConfig.headers.Authorization = `Bearer ${token}`;
+  const data = store.getState().auth;
+  if (data.token) {
+    updatedConfig.headers.Authorization = `Bearer ${data.token}`;
   }
   return updatedConfig;
 });
@@ -32,7 +32,7 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response.status === 401) {
-      store.dispatch(logoutAction());
+      store.dispatch(authActions.logout());
     }
     return Promise.reject(error);
   }

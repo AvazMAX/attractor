@@ -52,7 +52,7 @@ export const UserLayout = ({ variant }) => {
   };
 
   const saveHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     dispatch(
       putProfile({
         name,
@@ -64,9 +64,13 @@ export const UserLayout = ({ variant }) => {
     setEdit(!edit);
   };
 
+  const goBackHandler = () => {
+    navigate("/layout/users");
+  };
+
   return (
-    <Container>
-      {!variant && (
+    <Container variant={variant}>
+      {!variant ? (
         <TabsStyle
           value={value}
           onChange={handleChange}
@@ -75,72 +79,85 @@ export const UserLayout = ({ variant }) => {
           <Tab value="publicrepos" label="Public repository" />
           <Tab value="privatrepos" label="Private repository" />
         </TabsStyle>
+      ) : (
+        <Button onClick={goBackHandler}>Go back</Button>
       )}
-      <ContainerBlockOne>
-        <BlockOne onSubmit={saveHandler}>
-          <img src={item.avatar_url} alt="profile" />
-          {edit ? (
-            <ContainerEditInput>
-              <Input value={name} onChange={(e) => setName(e.target.value)} />
-              <Input
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-              />
-              <Input
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-              />
-              <Input value={bio} onChange={(e) => setBio(e.target.value)} />
-            </ContainerEditInput>
-          ) : (
-            <ContainerEditItem>
-              <h1>{item.name}</h1>
-              <div>
-                <p>
-                  <GeoPoint />
-                  {item.location}
-                </p>
-                <p>
-                  <CompanyIcon />
-                  {item.company}
-                </p>
-                <p>
-                  <BioIcon />
-                  {item.bio}
-                </p>
-              </div>
-            </ContainerEditItem>
-          )}
-          {!variant && (
-            <BlockTwo>
-              <Button variant="outlined" onClick={editHandler}>
-                {edit ? "Cancel" : "Edit profile"}
-              </Button>
-              {edit && <Button type="submit">Save</Button>}
-            </BlockTwo>
-          )}
-          <h2>{item.login}</h2>
-          <a target="blank" href={item.html_url}>
-            {item.html_url}
-          </a>
-        </BlockOne>
-        <div>
-          <Outlet />
-        </div>
-      </ContainerBlockOne>
-      <ContainerContributions>
-        <img
-          src={`https://ghchart.rshah.org/${item.login}`}
-          alt="Name Your Github chart"
-        />
-      </ContainerContributions>
+      <BlockReposProfile>
+        <ContainerBlockOne>
+          <BlockOne onSubmit={saveHandler}>
+            <img src={item.avatar_url} alt="profile" />
+            {edit ? (
+              <ContainerEditInput>
+                <Input value={name} onChange={(e) => setName(e.target.value)} />
+                <Input
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                />
+                <Input
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+                <Input value={bio} onChange={(e) => setBio(e.target.value)} />
+              </ContainerEditInput>
+            ) : (
+              <ContainerEditItem>
+                <h1>{item.name}</h1>
+                <div>
+                  {item.location !== null && (
+                    <p>
+                      <GeoPoint />
+                      {item.location}
+                    </p>
+                  )}
+                  {item.company !== null && (
+                    <p>
+                      <CompanyIcon />
+                      {item.company}
+                    </p>
+                  )}
+                  {item.bio !== null && (
+                    <p>
+                      <BioIcon />
+                      {item.bio}
+                    </p>
+                  )}
+                </div>
+              </ContainerEditItem>
+            )}
+            {!variant && (
+              <BlockTwo>
+                <Button variant="outlined" onClick={editHandler}>
+                  {edit ? "Cancel" : "Edit profile"}
+                </Button>
+                {edit && <Button type="submit">Save</Button>}
+              </BlockTwo>
+            )}
+            <h2>{item.login}</h2>
+            <a target="blank" href={item.html_url}>
+              {item.html_url}
+            </a>
+          </BlockOne>
+          <div>
+            <Outlet />
+          </div>
+        </ContainerBlockOne>
+        <ContainerContributions>
+          <img
+            src={`https://ghchart.rshah.org/${item.login}`}
+            alt="Name Your Github chart"
+          />
+        </ContainerContributions>
+      </BlockReposProfile>
     </Container>
   );
 };
 const Container = styled("div")`
   max-width: 60rem;
-  margin: 0rem auto;
+  margin: ${(props) => (props.variant ? "1rem auto" : "0 auto")};
 `;
+
+const BlockReposProfile = styled("div")``;
+
 const ContainerContributions = styled("div")`
   display: flex;
   justify-content: center;
@@ -180,7 +197,6 @@ const BlockOne = styled("form")`
   padding: 1rem;
   img {
     width: 20rem;
-    /* height: 20rem; */
     border-radius: 99rem;
   }
 `;

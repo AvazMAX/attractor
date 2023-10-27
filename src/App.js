@@ -13,11 +13,14 @@ const AppContent = () => {
   const token = location.pathname.split("=");
   const access_token = token[1];
 
+  if (access_token) {
+    localStorage.setItem("token", access_token);
+  }
+
   useEffect(() => {
-    if (access_token) {
-      dispatch(authActions.addToken(access_token));
-    }
-  }, [dispatch, access_token]);
+    const json = localStorage.getItem("token");
+    dispatch(authActions.login(json));
+  }, [dispatch]);
 
   return (
     <>
