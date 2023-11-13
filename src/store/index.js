@@ -6,5 +6,8 @@ export const store = configureStore({
   reducer: {
     [authSlice.name]: authSlice.reducer,
     [userSlice.name]: userSlice.reducer,
+
+
+
   },
 });
