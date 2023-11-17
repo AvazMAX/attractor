@@ -1,41 +1,42 @@
-import axios from "axios";
-import { URL } from "../utils/constants";
-import { authActions } from "../store/auth/authSlice";
+import axios from 'axios'
+import { URL } from '../utils/constants'
+import { Navigate } from 'react-router'
+import { authActions } from '../store/auth/authSlice'
 
 const headers = {
-  "Content-Type": "application/json",
-};
+	'Content-Type': 'application/json'
+}
 
 const axiosInstance = axios.create({
-  baseURL: URL,
-  headers,
-});
+	baseURL: URL,
+	headers
+})
 
-let store;
-export const injectStore = (_store) => {
-  store = _store;
-};
+let store
+export const injectStore = _store => {
+	store = _store
+}
 
-axiosInstance.interceptors.request.use((config) => {
-  const updatedConfig = { ...config };
+axiosInstance.interceptors.request.use(config => {
+	const updatedConfig = { ...config }
 
-  const data = store.getState().auth;
-  if (data.token) {
-    updatedConfig.headers.Authorization = `Bearer ${data.token}`;
-  }
-  return updatedConfig;
-});
+	const data = store.getState().auth
+	if (data.token) {
+		updatedConfig.headers.Authorization = `Bearer ${data.token}`
+	}
+	return updatedConfig
+})
 
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response.status === 401) {
-      store.dispatch(authActions.logout());
-    }
-    return Promise.reject(error);
-  }
-);
+	response => {
+		return response
+	},
+	error => {
+		if (error.response.status === 403) {
+			store.dispatch(authActions.logout())
+		}
+		return Promise.reject(error)
+	}
+)
 
-export { axiosInstance };
+export { axiosInstance }

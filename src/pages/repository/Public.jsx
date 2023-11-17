@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 
 export const Public = ({ variant }) => {
   const { repos, oneUserRepos } = useSelector((state) => state.user);
-  const publicRepos = repos.filter((el) => !el.private);
-  const data = !variant ? publicRepos : oneUserRepos;
+  const data = !variant ? repos : oneUserRepos;
 
   return (
     <Container style={data.length >= 7 ? { overflowY: "scroll" } : null}>
